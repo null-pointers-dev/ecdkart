@@ -6,6 +6,10 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - '.github/**'
+      - '**.md'
+      - 'docs/**'
   release:
     types: [published]
 
@@ -184,7 +188,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ github.repository }}/backend
+          images: ghcr.io/${{ github.repository_owner }}/ecdkart-backend
           tags: |
             type=ref,event=branch
             type=semver,pattern={{version}},value=${{ steps.package-version.outputs.VERSION }}
@@ -234,7 +238,7 @@ jobs:
           echo "🚀 Deploying to production environment..."
           echo "📝 Commit: ${{ steps.commit-info.outputs.commit_msg }} (${{ steps.commit-info.outputs.short_sha }})"
           echo "Add your deployment commands here"
-          # Example: kubectl set image deployment/backend backend=ghcr.io/${{ github.repository }}/backend:prod-${{ steps.commit-info.outputs.short_sha }}
+          # Example: kubectl set image deployment/backend backend=ghcr.io/${{ github.repository_owner }}/ecdkart-backend:prod-${{ steps.commit-info.outputs.short_sha }}
           # Example: ssh user@prod-server 'cd /app && docker-compose pull && docker-compose up -d'
 
       - name: Run smoke tests
@@ -298,7 +302,7 @@ jobs:
             ${{ steps.changelog.outputs.CHANGELOG }}
             
             ## Docker Images
-            - Backend: `ghcr.io/${{ github.repository }}/backend:v${{ steps.package-version.outputs.VERSION }}`
+            - Backend: `ghcr.io/${{ github.repository_owner }}/ecdkart-backend:v${{ steps.package-version.outputs.VERSION }}`
             
             **Full Changelog**: https://github.com/${{ github.repository }}/compare/v${{ steps.package-version.outputs.VERSION }}
           draft: false
