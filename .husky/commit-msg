@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+# Husky v9+ commit-msg hook
+# This validates commit messages against commitlint rules
+
+pnpm exec commitlint --edit "$1"

@@ -1,0 +1,20 @@
+# PostgreSQL Database with custom initialization
+FROM postgres:16-alpine
+
+# Set environment variables for PostgreSQL
+ENV POSTGRES_DB=ecdkart
+ENV POSTGRES_USER=ecdkart
+ENV POSTGRES_PASSWORD=ecdkart_password
+
+# Copy initialization scripts if needed
+# COPY ./init-scripts/ /docker-entrypoint-initdb.d/
+
+# Expose PostgreSQL port
+EXPOSE 5432
+
+# Health check
+HEALTHCHECK --interval=10s --timeout=5s --retries=5 \
+  CMD pg_isready -U $POSTGRES_USER -d $POSTGRES_DB || exit 1
+
+# The base image already has the correct CMD
+# CMD ["postgres"]

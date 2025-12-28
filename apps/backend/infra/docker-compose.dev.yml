@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile.db
+    container_name: ecdkart-db-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ecdkart_dev
+      POSTGRES_USER: ecdkart
+      POSTGRES_PASSWORD: dev_password
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - ecdkart-network-dev
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ecdkart -d ecdkart_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # NestJS Application with hot-reload
+  app:
+    build:
+      context: ../../..
+      dockerfile: apps/backend/infra/Dockerfile.dev
+    container_name: ecdkart-app-dev
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DATABASE_URL: postgresql://ecdkart:dev_password@db:5432/ecdkart_dev
+    volumes:
+      # Mount source code for hot-reload
+      - ../../../apps/backend/src:/app/apps/backend/src
+      - ../../../apps/backend/package.json:/app/apps/backend/package.json
+      - ../../../apps/backend/tsconfig.json:/app/apps/backend/tsconfig.json
+      - ../../../apps/backend/nest-cli.json:/app/apps/backend/nest-cli.json
+      # Exclude node_modules
+      - /app/node_modules
+      - /app/apps/backend/node_modules
+    ports:
+      - "3000:3000"
+      - "9229:9229" # Debug port
+    networks:
+      - ecdkart-network-dev
+    depends_on:
+      db:
+        condition: service_healthy
+    command: ["pnpm", "dev"]
+
+networks:
+  ecdkart-network-dev:
+    driver: bridge
+
+volumes:
+  postgres_data_dev:
+    driver: local

@@ -1,0 +1,49 @@
+{
+	"name": "@ecdkart/backend",
+	"version": "0.1.0",
+	"description": "NestJS backend for ecdkart",
+	"author": "",
+	"private": true,
+	"license": "UNLICENSED",
+	"scripts": {
+		"build": "nest build",
+		"start": "nest start",
+		"dev": "nest start --watch",
+		"debug": "nest start --debug --watch",
+		"prod": "node dist/main",
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"test:cov": "vitest run --coverage",
+		"test:e2e": "vitest run --config vitest.e2e.config.ts",
+		"lint": "biome lint .",
+		"format": "biome format ."
+	},
+	"dependencies": {
+		"@mguay/nestjs-better-auth": "1.0.4",
+		"@nestjs/common": "^11.1.10",
+		"@nestjs/config": "^4.0.2",
+		"@nestjs/core": "^11.1.10",
+		"@nestjs/platform-express": "^11.1.10",
+		"better-auth": "^1.4.9",
+		"drizzle-orm": "^0.45.1",
+		"pg": "^8.16.3",
+		"reflect-metadata": "^0.2.2",
+		"rxjs": "^7.8.2"
+	},
+	"devDependencies": {
+		"@nestjs/cli": "^11.0.14",
+		"@nestjs/schematics": "^11.0.9",
+		"@nestjs/testing": "^11.1.10",
+		"@swc/cli": "^0.7.9",
+		"@swc/core": "^1.15.7",
+		"@types/node": "^25.0.3",
+		"@types/pg": "^8.16.0",
+		"@types/supertest": "^6.0.3",
+		"@vitest/coverage-v8": "^4.0.16",
+		"drizzle-kit": "^0.31.8",
+		"supertest": "^7.1.4",
+		"typescript": "^5.9.3",
+		"unplugin-swc": "^1.5.9",
+		"vitest": "^4.0.16"
+	}
+}

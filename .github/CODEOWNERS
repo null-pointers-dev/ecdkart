@@ -1,0 +1,15 @@
+# Code Owners
+# These owners will be automatically requested for review when someone opens a PR
+
+# Global owner - all files
+* @null-pointers-dev
+
+# Backend specific
+/apps/backend/ @null-pointers-dev
+
+# Documentation
+/docs/ @null-pointers-dev
+
+# Infrastructure
+/.github/ @null-pointers-dev
+/scripts/ @null-pointers-dev
